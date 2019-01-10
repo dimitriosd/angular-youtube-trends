@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
 import { ContextService } from '../context.service';
@@ -9,8 +9,12 @@ import { ContextService } from '../context.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  @Input() public filterSlideOpen: any;
+  @Output() public filterSlideOpen: EventEmitter<boolean> = new EventEmitter();
   public title$: Subject<string> = this.appContext.moduleTitle;
 
   constructor(private appContext: ContextService) {}
+
+  public open() {
+    this.filterSlideOpen.emit();
+  }
 }

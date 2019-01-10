@@ -3,9 +3,10 @@ export const appConfig = {
   getYoutubeEmbdedUrl: (id: string) => `https://www.youtube.com/embed/${id}??autoplay=1`,
   youtubeApiKey: 'AIzaSyCCwLsO1Z8-ubGs-qPjjNjaOK0WhaVY4UM',
   partsToLoad: 'snippet, statistics',
+  partsToLoadCategories: 'snippet',
   chart: 'mostPopular',
   defaultRegion: 'US',
-  defaultCategoryId: 10,
+  defaultCategoryId: '10',
   maxVideosToLoad: 24,
   countryList: [
     { name: 'Afghanistan', code: 'AF' },

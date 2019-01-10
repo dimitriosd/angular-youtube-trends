@@ -1,4 +1,4 @@
 export interface ICategoryListInterface {
-  name: string;
-  id: number;
+  title: string;
+  id: string;
 }
