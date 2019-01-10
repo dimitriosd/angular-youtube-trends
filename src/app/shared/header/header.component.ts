@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
 import { ContextService } from '../context.service';

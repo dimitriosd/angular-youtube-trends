@@ -9,7 +9,7 @@ export class VideoClass {
   public likeCount = 0;
   public items ?= [];
 
-  constructor(data: any = {}) {
+  constructor(data = {}) {
     if (!data || !data['snippet'] || !data['statistics']) {
       return;
     }

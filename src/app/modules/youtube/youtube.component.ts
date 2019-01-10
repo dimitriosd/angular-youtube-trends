@@ -44,7 +44,7 @@ export class YoutubeComponent implements OnInit {
         filters.selectedCategoryId
       )
       .pipe(
-        catchError((error: any) => {
+        catchError((error) => {
           this.loadingError$.next(true);
           return throwError(error);
         })

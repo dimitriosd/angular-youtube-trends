@@ -17,7 +17,7 @@ import { SESSION_STORAGE_TOKEN } from '@shared/tokens/session-storage.token';
   styleUrls: ['./slide-filters.component.scss']
 })
 export class SlideFiltersComponent implements OnInit, OnDestroy {
-  @Output() public filterSlideClose: EventEmitter<any> = new EventEmitter();
+  @Output() public filterSlideClose: EventEmitter<boolean> = new EventEmitter();
   public countryFormControl: FormControl = new FormControl();
   public countryList: ICountryListModel[] = appConfig.countryList;
   public filteredCountries: Observable<ICountryListModel[]>;
@@ -61,6 +61,7 @@ export class SlideFiltersComponent implements OnInit, OnDestroy {
 
   public onCountryChange(value: string) {
     const countryCode = this.getCountryCode(value);
+    // We assume that each time we change country the categories for this country should be loaded
     this.loadCategories(countryCode, true);
   }
 
@@ -129,7 +130,7 @@ export class SlideFiltersComponent implements OnInit, OnDestroy {
       .getVideoCategories(regionCode)
       .pipe(
         takeUntil(this.destroy$),
-        catchError((error: any) => {
+        catchError((error) => {
           return throwError(error);
         })
       )
@@ -165,7 +166,6 @@ export class SlideFiltersComponent implements OnInit, OnDestroy {
   private setCategories() {
     this.filteredCategories = this.categoryFormControl.valueChanges.pipe(
       startWith<string | VideoCategoryClass>(''),
-      filter((value) => !!value),
       map((value) => (typeof value === 'string' ? value : value.title)),
       map((title) => (title ? this.filterCategories(title) : this.videoCategories.slice()))
     );

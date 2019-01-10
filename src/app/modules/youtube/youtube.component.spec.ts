@@ -10,6 +10,7 @@ import { ContextService } from '@shared/context.service';
 import { Observable } from 'rxjs';
 import 'rxjs-compat/add/observable/of';
 import { VideoClass } from '@modules/youtube/models/video.class';
+import { SESSION_STORAGE_TOKEN } from '@shared/tokens/session-storage.token';
 
 @Component({
   selector: 'app-video-component',
@@ -37,7 +38,17 @@ describe('YoutubeComponent', () => {
         MatSidenavModule,
         MomentModule
       ],
-      providers: [{ provide: YoutubeService, useValue: service }, ContextService]
+      providers: [
+        { provide: YoutubeService, useValue: service },
+        ContextService,
+        {
+          provide: SESSION_STORAGE_TOKEN,
+          useValue: {
+            getItem: () => '',
+            setItem: () => ''
+          }
+        }
+      ]
     }).compileComponents();
   }));
 

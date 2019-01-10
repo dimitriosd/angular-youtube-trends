@@ -3,7 +3,7 @@ export class VideoCategoryClass {
   public title = '';
   public items ?= [];
 
-  constructor(data: any = {}) {
+  constructor(data = {}) {
     if (!data || !data[ 'snippet' ]) {
       return;
     }

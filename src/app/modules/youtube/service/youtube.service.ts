@@ -55,7 +55,7 @@ export class YoutubeService {
   }
 
   private handleError(operation: string = 'operation') {
-    return (error: any) => {
+    return (error) => {
       error.operation = operation;
       return throwError(error);
     };
