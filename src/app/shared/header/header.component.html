@@ -1,11 +1,9 @@
 <div id="page-header">
   <nav>
     <div class="logo-bg" [routerLink]="['./']">
-      <img class="logo" src="/assets/logo.svg" alt="Trendings"/>
+      <img class="logo" src="/assets/logo.svg" alt="Trendings" />
     </div>
-    <div class="opened-module-title">
-      {{title$ | async}}
-    </div>
+    <div class="opened-module-title">{{ title$ | async }}</div>
     <button mat-button class="menu-toggle" (click)="filterSlideOpen()">
       <mat-icon>settings</mat-icon>
     </button>

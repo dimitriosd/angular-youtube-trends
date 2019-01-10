@@ -29,20 +29,16 @@ describe('YoutubeComponent', () => {
   };
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-             declarations: [ YoutubeComponent, VideoComponent ],
-             imports     : [
-               RouterTestingModule,
-               MatButtonModule,
-               MatIconModule,
-               MatSidenavModule,
-               MomentModule
-             ],
-             providers   : [
-               {provide: YoutubeService, useValue: service},
-               ContextService
-             ]
-           })
-           .compileComponents();
+      declarations: [YoutubeComponent, VideoComponent],
+      imports: [
+        RouterTestingModule,
+        MatButtonModule,
+        MatIconModule,
+        MatSidenavModule,
+        MomentModule
+      ],
+      providers: [{ provide: YoutubeService, useValue: service }, ContextService]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -52,7 +48,6 @@ describe('YoutubeComponent', () => {
   });
 
   it('should create', () => {
-    expect(component)
-      .toBeTruthy();
+    expect(component).toBeTruthy();
   });
 });

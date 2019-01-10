@@ -3,18 +3,16 @@ import { Component, OnInit } from '@angular/core';
 import { appConfig } from 'appConfig';
 
 @Component({
-  selector   : 'app-player',
+  selector: 'app-player',
   templateUrl: './player.component.html',
-  styleUrls  : [ './player.component.scss' ]
+  styleUrls: ['./player.component.scss']
 })
 export class PlayerComponent implements OnInit {
   public embedUrl: string;
   public videoLoader: boolean;
 
   public ngOnInit() {
-    const id = window.location.href
-                     .replace(/^.*\//g, '')
-                     .replace(/^.*\..*/g, '');
+    const id = window.location.href.replace(/^.*\//g, '').replace(/^.*\..*/g, '');
 
     if (!id.length) {
       return;
@@ -28,5 +26,4 @@ export class PlayerComponent implements OnInit {
   public loadVideo(): void {
     this.videoLoader = false;
   }
-
 }

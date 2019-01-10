@@ -11,7 +11,8 @@ import {
   MatButtonModule,
   MatIconModule,
   MatInputModule,
-  MatSidenavModule, MatSliderModule
+  MatSidenavModule,
+  MatSliderModule
 } from '@angular/material';
 
 /* Application routes */
@@ -24,12 +25,8 @@ import { HeaderComponent } from '@shared/header/header.component';
 import { SlideFiltersComponent } from '@shared/slide-filters/slide-filters.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    SlideFiltersComponent
-  ],
-  imports     : [
+  declarations: [AppComponent, HeaderComponent, SlideFiltersComponent],
+  imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
@@ -41,13 +38,11 @@ import { SlideFiltersComponent } from '@shared/slide-filters/slide-filters.compo
     MatSidenavModule,
     MatSliderModule,
     RouterModule.forRoot(ROUTES, {
-      useHash           : Boolean(history.pushState) === false,
+      useHash: Boolean(history.pushState) === false,
       preloadingStrategy: PreloadAllModules
     })
   ],
-  providers   : [ ContextService ],
-  bootstrap   : [ AppComponent ]
+  providers: [ContextService],
+  bootstrap: [AppComponent]
 })
-
-export class AppModule {
-}
+export class AppModule {}

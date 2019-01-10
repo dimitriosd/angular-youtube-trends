@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  MatAutocompleteModule, MatIconModule, MatInputModule, MatSidenavModule,
+  MatAutocompleteModule,
+  MatIconModule,
+  MatInputModule,
+  MatSidenavModule,
   MatSliderModule
 } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -16,21 +19,20 @@ describe('HeaderComponent', () => {
   let context: ContextService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-             declarations: [ SlideFiltersComponent ],
-             providers   : [ ContextService ],
-             imports     : [
-               BrowserAnimationsModule,
-               FormsModule,
-               ReactiveFormsModule,
-               RouterTestingModule,
-               MatAutocompleteModule,
-               MatIconModule,
-               MatInputModule,
-               MatSidenavModule,
-               MatSliderModule
-             ]
-           })
-           .compileComponents();
+      declarations: [SlideFiltersComponent],
+      providers: [ContextService],
+      imports: [
+        BrowserAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+        MatAutocompleteModule,
+        MatIconModule,
+        MatInputModule,
+        MatSidenavModule,
+        MatSliderModule
+      ]
+    }).compileComponents();
     context = TestBed.get(ContextService);
   }));
 
@@ -41,7 +43,6 @@ describe('HeaderComponent', () => {
   });
 
   it('should create', () => {
-    expect(component)
-      .toBeTruthy();
+    expect(component).toBeTruthy();
   });
 });

@@ -8,10 +8,9 @@ describe('PlayerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-             declarations: [ PlayerComponent ],
-             imports     : [ RouterTestingModule ]
-           })
-           .compileComponents();
+      declarations: [PlayerComponent],
+      imports: [RouterTestingModule]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -21,8 +20,6 @@ describe('PlayerComponent', () => {
   });
 
   it('should create', () => {
-    expect(component)
-      .toBeTruthy();
+    expect(component).toBeTruthy();
   });
-
 });

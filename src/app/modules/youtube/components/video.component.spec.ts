@@ -11,23 +11,19 @@ describe('VideoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-             declarations: [ VideoComponent ],
-             imports     : [
-               RouterTestingModule,
-               MatIconModule
-             ]
-           })
-           .compileComponents();
+      declarations: [VideoComponent],
+      imports: [RouterTestingModule, MatIconModule]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(VideoComponent);
     component = fixture.componentInstance;
     component.video = new VideoClass({
-      id        : 123,
-      snippet   : {
-        title      : 'Test',
-        thumbnails : {
+      id: 123,
+      snippet: {
+        title: 'Test',
+        thumbnails: {
           high: {
             url: 'http://test.com'
           }
@@ -43,7 +39,6 @@ describe('VideoComponent', () => {
   });
 
   it('should create', () => {
-    expect(component)
-      .toBeTruthy();
+    expect(component).toBeTruthy();
   });
 });

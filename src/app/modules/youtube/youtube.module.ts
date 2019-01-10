@@ -9,11 +9,7 @@ import { MomentModule } from 'angular2-moment';
 import { ROUTES } from './youtube.routes';
 
 /* Material UI */
-import {
-  MatButtonModule,
-  MatIconModule,
-  MatSidenavModule
-} from '@angular/material';
+import { MatButtonModule, MatIconModule, MatSidenavModule } from '@angular/material';
 
 /* Components/Services/Pipes */
 import { YoutubeComponent } from '@modules/youtube/youtube.component';
@@ -22,12 +18,8 @@ import { YoutubeService } from '@modules/youtube/service/youtube.service';
 import { PlayerComponent } from '@modules/youtube/player/player.component';
 
 @NgModule({
-  declarations: [
-    YoutubeComponent,
-    VideoComponent,
-    PlayerComponent
-  ],
-  imports     : [
+  declarations: [YoutubeComponent, VideoComponent, PlayerComponent],
+  imports: [
     CommonModule,
     FormsModule,
     HttpClientModule,
@@ -37,9 +29,7 @@ import { PlayerComponent } from '@modules/youtube/player/player.component';
     MomentModule,
     RouterModule.forChild(ROUTES)
   ],
-  providers   : [ YoutubeService ],
-  exports     : [ RouterModule ]
+  providers: [YoutubeService],
+  exports: [RouterModule]
 })
-
-export class YoutubeModule {
-}
+export class YoutubeModule {}

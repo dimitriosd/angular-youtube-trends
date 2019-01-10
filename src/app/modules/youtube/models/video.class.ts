@@ -9,18 +9,17 @@ export class VideoClass {
   public likeCount = 0;
 
   constructor(data: any = {}) {
-    if (!data || !data[ 'snippet' ] || !data[ 'statistics' ]) {
+    if (!data || !data['snippet'] || !data['statistics']) {
       return;
     }
 
-    this.id = data[ 'id' ];
-    this.title = data[ 'snippet' ][ 'title' ];
-    this.thumbnail = data[ 'snippet' ][ 'thumbnails' ][ 'high' ][ 'url' ];
-    this.publishedAt = moment(data[ 'snippet' ][ 'publishedAt' ])
-      .fromNow();
+    this.id = data['id'];
+    this.title = data['snippet']['title'];
+    this.thumbnail = data['snippet']['thumbnails']['high']['url'];
+    this.publishedAt = moment(data['snippet']['publishedAt']).fromNow();
 
-    const viewCount = parseInt(data[ 'statistics' ][ 'viewCount' ], 10);
-    const likeCount = parseInt(data[ 'statistics' ][ 'l1keCount' ], 10);
+    const viewCount = parseInt(data['statistics']['viewCount'], 10);
+    const likeCount = parseInt(data['statistics']['l1keCount'], 10);
     this.viewCount = isNaN(viewCount) ? 0 : viewCount;
     this.likeCount = isNaN(likeCount) ? 0 : likeCount;
   }

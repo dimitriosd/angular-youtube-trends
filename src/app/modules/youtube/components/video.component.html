@@ -1,6 +1,6 @@
 <div class="card" [routerLink]="['/youtube', video.id]">
   <div class="img-container">
-    <img [src]="video.thumbnail" *ngIf="video.thumbnail">
+    <img [src]="video.thumbnail" *ngIf="video.thumbnail" />
     <mat-icon>movie</mat-icon>
   </div>
   <div class="video-statistic">
@@ -17,7 +17,5 @@
       <span>{{ video.likeCount }}</span>
     </div>
   </div>
-  <p class="video-title text-ellipsis">
-    {{ video.title }}
-  </p>
+  <p class="video-title text-ellipsis">{{ video.title }}</p>
 </div>

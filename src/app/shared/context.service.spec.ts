@@ -4,12 +4,11 @@ import { ContextService } from './context.service';
 describe('ContextService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ ContextService ]
+      providers: [ContextService]
     });
   });
 
-  it('should ...', inject([ ContextService ], (service: ContextService) => {
-    expect(service)
-      .toBeTruthy();
+  it('should ...', inject([ContextService], (service: ContextService) => {
+    expect(service).toBeTruthy();
   }));
 });

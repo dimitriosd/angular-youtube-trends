@@ -11,14 +11,10 @@ describe('HeaderComponent', () => {
   let context: ContextService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-             declarations: [ HeaderComponent ],
-             providers   : [ ContextService ],
-             imports     : [
-               RouterTestingModule,
-               MatIconModule
-             ]
-           })
-           .compileComponents();
+      declarations: [HeaderComponent],
+      providers: [ContextService],
+      imports: [RouterTestingModule, MatIconModule]
+    }).compileComponents();
     context = TestBed.get(ContextService);
   }));
 
@@ -29,7 +25,6 @@ describe('HeaderComponent', () => {
   });
 
   it('should create', () => {
-    expect(component)
-      .toBeTruthy();
+    expect(component).toBeTruthy();
   });
 });
