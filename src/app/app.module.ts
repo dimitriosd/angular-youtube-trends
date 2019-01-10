@@ -24,6 +24,7 @@ import { AppComponent } from './app.component';
 import { ContextService } from '@shared/context.service';
 import { HeaderComponent } from '@shared/header/header.component';
 import { SlideFiltersComponent } from '@shared/slide-filters/slide-filters.component';
+import { SESSION_STORAGE_TOKEN, sessionStorageFactory } from '@shared/tokens/session-storage.token';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, SlideFiltersComponent],
@@ -44,7 +45,13 @@ import { SlideFiltersComponent } from '@shared/slide-filters/slide-filters.compo
       preloadingStrategy: PreloadAllModules
     })
   ],
-  providers: [ContextService],
+  providers: [
+    ContextService,
+    {
+      provide: SESSION_STORAGE_TOKEN,
+      useFactory: sessionStorageFactory
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -7,7 +7,12 @@ export const appConfig = {
   chart: 'mostPopular',
   defaultRegion: 'US',
   defaultCategoryId: '10',
+  defaultCategoryName: 'Music',
   maxVideosToLoad: 24,
+  storagFiltersObjectName: 'filters',
+  storageFiltersCountry: 'selectedRegionCode',
+  storageFiltersCategory: 'selectedCategoryId',
+  storageFiltersVideosCountPerPage: 'videosCountPerPage',
   countryList: [
     { name: 'Afghanistan', code: 'AF' },
     { name: 'Åland Islands', code: 'AX' },

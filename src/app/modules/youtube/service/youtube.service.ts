@@ -17,7 +17,7 @@ export class YoutubeService {
     videoCategoryId?: string
   ): Observable<VideoClass[]> {
     return this.http
-      .get<any>(appConfig.getYoutubeEndPoint('videos'), {
+      .get<VideoClass>(appConfig.getYoutubeEndPoint('videos'), {
         params: {
           part: appConfig.partsToLoad,
           chart: appConfig.chart,
@@ -39,7 +39,7 @@ export class YoutubeService {
 
   public getVideoCategories(regionCode: string): Observable<VideoCategoryClass[]> {
     return this.http
-      .get<any>(appConfig.getYoutubeEndPoint('videoCategories'), {
+      .get<VideoCategoryClass>(appConfig.getYoutubeEndPoint('videoCategories'), {
         params: {
           part: appConfig.partsToLoadCategories,
           key: appConfig.youtubeApiKey,

@@ -7,6 +7,7 @@ export class VideoClass {
   public publishedAt = '';
   public viewCount = 0;
   public likeCount = 0;
+  public items ?= [];
 
   constructor(data: any = {}) {
     if (!data || !data['snippet'] || !data['statistics']) {
