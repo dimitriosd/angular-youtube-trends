@@ -27,10 +27,10 @@ describe('SlideFiltersComponent', () => {
       const videoCategoryClass = new VideoCategoryClass({
         id: 123,
         snippet: {
-          title: 'Test',
-        },
+          title: 'Test'
+        }
       });
-      return Observable.of([ { videoCategoryClass }]);
+      return Observable.of([{ videoCategoryClass }]);
     }
   };
   beforeEach(async(() => {
@@ -67,11 +67,35 @@ describe('SlideFiltersComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SlideFiltersComponent);
     component = fixture.componentInstance;
-
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create component', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
+  });
+
+  it('shoud reload categories on country change', () => {
+    const privateComponent = component as any;
+    component.videoCategories = [
+      {id: '1', title: 'test'}
+    ];
+    spyOn(privateComponent, 'loadCategories');
+    component.onChangeVideosPerPage(30);
+    component.onCountryChange('US');
+    component.onCategoryChange('1');
+    expect(privateComponent.loadCategories).toHaveBeenCalled();
+  });
+
+  it('should get filtered countries', () => {
+    const privateComponent = component as any;
+    expect(privateComponent.filterCountries('USA').length).toBe(1);
+  });
+
+  it('should get filtered categories', () => {
+    const privateComponent = component as any;
+    component.videoCategories = [
+      {id: '1', title: 'test'}
+    ];
+    expect(privateComponent.filterCategories('test').length).toBe(1);
   });
 });

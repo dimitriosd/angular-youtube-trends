@@ -8,7 +8,7 @@ import { ContextService } from '../context.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   @Output() public filterSlideOpen: EventEmitter<boolean> = new EventEmitter();
   public title$: Subject<string> = this.appContext.moduleTitle;
   public showFilterButton$: Subject<boolean> = this.appContext.showFilterButton;

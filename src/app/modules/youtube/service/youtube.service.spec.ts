@@ -10,16 +10,17 @@ describe('YoutubeService', () => {
     });
   });
 
-  it('should ...', inject([YoutubeService], (service: YoutubeService) => {
+  it('should create service', inject([YoutubeService], (service: YoutubeService) => {
     expect(service).toBeTruthy();
   }));
 
-  it('should ...', inject([YoutubeService], (service: YoutubeService) => {
-    service.getTrendingVideos('US');
-    service.getTrendingVideos('US', 50, '10');
+  it('should get trending videos', inject([YoutubeService], (service: YoutubeService) => {
+    expect(service.getTrendingVideos('US')).toBeDefined();
+    expect(service.getTrendingVideos('US', 5)).toBeDefined();
+    expect(service.getTrendingVideos('US', 51, '10', 'someToken')).toBeDefined();
   }));
 
-  it('should ...', inject([YoutubeService], (service: YoutubeService) => {
-    service.getVideoCategories('US');
+  it('should get video categories', inject([YoutubeService], (service: YoutubeService) => {
+    expect(service.getVideoCategories('US')).toBeDefined();
   }));
 });

@@ -35,27 +35,27 @@ export class YoutubeComponent implements OnInit {
     this.appContext.searchFilters.subscribe((filters) => this.resetFiltersAndLoad(filters));
   }
 
-  public onScroll() {
+  public onScroll(): void {
     if (this.showMoreVideos) {
       const filters = this.getFilters(undefined);
       this.loadVideos(filters, this.nextPageToken);
     }
   }
 
-  private initFiltersAndLoad(searchFilters?: ISearchFiltersModel) {
+  private initFiltersAndLoad(searchFilters?: ISearchFiltersModel): void {
     this.clearData();
     const filters = this.getFilters(searchFilters);
     this.loadVideos(filters);
   }
 
-  private resetFiltersAndLoad(searchFilters: ISearchFiltersModel) {
+  private resetFiltersAndLoad(searchFilters: ISearchFiltersModel): void {
     this.clearData();
     this.saveFilters(searchFilters);
     const filters = this.getFilters(searchFilters);
     this.loadVideos(filters);
   }
 
-  private clearData() {
+  private clearData(): void {
     this.trendingVideos = [];
     this.nextPageToken = null;
     this.isVideosLoading = true;
@@ -64,7 +64,7 @@ export class YoutubeComponent implements OnInit {
   private loadVideos(
     searchFilters: ISearchFiltersModel,
     nextPageToken: string = this.nextPageToken
-  ) {
+  ): void {
     this.youtubeService
       .getTrendingVideos(
         searchFilters.selectedRegionCode,
@@ -87,14 +87,14 @@ export class YoutubeComponent implements OnInit {
       });
   }
 
-  private saveFilters(searchFilters: ISearchFiltersModel) {
+  private saveFilters(searchFilters: ISearchFiltersModel): void {
     this.sessionStorage.setItem(appConfig.storagFiltersObjectName, JSON.stringify(searchFilters));
   }
 
-  private getFilters(filters: ISearchFiltersModel) {
+  private getFilters(filters: ISearchFiltersModel): ISearchFiltersModel {
     // First check in storage
     const storageFilters = this.sessionStorage.getItem(appConfig.storagFiltersObjectName);
-    if (storageFilters && !filters) {
+    if (!filters && storageFilters) {
       return JSON.parse(this.sessionStorage.getItem(appConfig.storagFiltersObjectName));
     } else {
       // If filters are set from filters sidebar or there is nothing in storage then construct them

@@ -1,5 +1,5 @@
 <h3 class="title">
-  Filters <button mat-icon-button (click)="close()"><mat-icon >close</mat-icon></button>
+  Filters <button mat-icon-button (click)="close()"><mat-icon>close</mat-icon></button>
 </h3>
 
 <mat-form-field>
@@ -12,8 +12,11 @@
     [formControl]="countryFormControl"
     [matAutocomplete]="countryAuto"
   />
-  <mat-autocomplete #countryAuto="matAutocomplete" (optionSelected)="onCountryChange($event.option.value)">
-    <mat-option *ngFor="let country of filteredCountries | async" [value]="country.name">
+  <mat-autocomplete
+    #countryAuto="matAutocomplete"
+    (optionSelected)="onCountryChange($event.option.value)"
+  >
+    <mat-option *ngFor="let country of (filteredCountries | async)" [value]="country.name">
       {{ country.name }}
     </mat-option>
   </mat-autocomplete>
@@ -29,8 +32,11 @@
     [formControl]="categoryFormControl"
     [matAutocomplete]="categoryAuto"
   />
-  <mat-autocomplete #categoryAuto="matAutocomplete" (optionSelected)="onCategoryChange($event.option.value)">
-    <mat-option *ngFor="let category of filteredCategories | async" [value]="category.title">
+  <mat-autocomplete
+    #categoryAuto="matAutocomplete"
+    (optionSelected)="onCategoryChange($event.option.value)"
+  >
+    <mat-option *ngFor="let category of (filteredCategories | async)" [value]="category.title">
       {{ category.title }}
     </mat-option>
   </mat-autocomplete>

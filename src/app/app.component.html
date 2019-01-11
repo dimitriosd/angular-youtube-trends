@@ -1,10 +1,9 @@
 <mat-sidenav-container>
-  <mat-sidenav mode="over"
-               position="end"
-               [fixedInViewport]="true"
-               [autoFocus]="false"
-               #filterSlide>
-    <app-slide-filters *ngIf="filterSlide.opened" (filterSlideClose)="filterSlide.close()"></app-slide-filters>
+  <mat-sidenav mode="over" position="end" [fixedInViewport]="true" [autoFocus]="false" #filterSlide>
+    <app-slide-filters
+      *ngIf="filterSlide.opened"
+      (filterSlideClose)="filterSlide.close()"
+    ></app-slide-filters>
   </mat-sidenav>
 
   <mat-sidenav-content>

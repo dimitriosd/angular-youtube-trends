@@ -6,7 +6,7 @@ import { ICountryListModel } from '@shared/models/country-list.interface';
 import { ContextService } from '@shared/context.service';
 import { Observable, Subject, throwError } from 'rxjs';
 import { VideoCategoryClass } from '@modules/youtube/models/video-category.class';
-import { catchError, filter, map, startWith, takeUntil } from 'rxjs/operators';
+import { catchError, map, startWith, takeUntil } from 'rxjs/operators';
 import { YoutubeService } from '@modules/youtube/service/youtube.service';
 import { ISearchFiltersModel } from '@shared/models/search-filters.interface';
 import { SESSION_STORAGE_TOKEN } from '@shared/tokens/session-storage.token';
@@ -35,7 +35,7 @@ export class SlideFiltersComponent implements OnInit, OnDestroy {
     @Inject(SESSION_STORAGE_TOKEN) protected sessionStorage: Storage
   ) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.setCountries();
     this.defaultVideosOnPage = this.getVideosToLoadFromStorage();
     this.loadCategories(this.getCountryCode(this.countryFormControl.value), false);
@@ -46,7 +46,7 @@ export class SlideFiltersComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  public onChangeVideosPerPage(count: number) {
+  public onChangeVideosPerPage(count: number): void {
     const filters: ISearchFiltersModel = {
       videosCountPerPage: count,
       selectedRegionCode: this.getCountryCode(this.countryFormControl.value),
@@ -55,17 +55,17 @@ export class SlideFiltersComponent implements OnInit, OnDestroy {
     this.appContext.searchFilters.next(filters);
   }
 
-  public close() {
+  public close(): void {
     this.filterSlideClose.emit();
   }
 
-  public onCountryChange(value: string) {
+  public onCountryChange(value: string): void {
     const countryCode = this.getCountryCode(value);
     // We assume that each time we change country the categories for this country should be loaded
     this.loadCategories(countryCode, true);
   }
 
-  public onCategoryChange(value: string) {
+  public onCategoryChange(value: string): void {
     const filters: ISearchFiltersModel = {
       videosCountPerPage: this.defaultVideosOnPage,
       selectedRegionCode: this.getCountryCode(this.countryFormControl.value),
@@ -74,13 +74,13 @@ export class SlideFiltersComponent implements OnInit, OnDestroy {
     this.appContext.searchFilters.next(filters);
   }
 
-  private getCountryCode(name) {
+  private getCountryCode(name): string {
     const country = this.countryList.find((item) => item.name === name);
     // If user types wrong country we make the regionCode the default one to prevent errors
     return country ? country.code : appConfig.defaultRegion;
   }
 
-  private getCategoryId(title) {
+  private getCategoryId(title): string | undefined {
     if (title) {
       const category = this.videoCategories.find((item) => item.title === title);
       return category ? category.id : undefined;
@@ -88,7 +88,7 @@ export class SlideFiltersComponent implements OnInit, OnDestroy {
     return undefined;
   }
 
-  private getCountryFilterFromStorage() {
+  private getCountryFilterFromStorage(): string {
     const searchFilter = JSON.parse(this.sessionStorage.getItem(appConfig.storagFiltersObjectName));
     const defaultCountry = this.countryList.find(
       (country) => country.code === appConfig.defaultRegion
@@ -101,21 +101,21 @@ export class SlideFiltersComponent implements OnInit, OnDestroy {
     return defaultCountry;
   }
 
-  private getCategoryFilterFromStorage() {
+  private getCategoryFilterFromStorage(): string {
     const searchFilter = JSON.parse(this.sessionStorage.getItem(appConfig.storagFiltersObjectName));
     return searchFilter
       ? searchFilter[appConfig.storageFiltersCategory]
       : appConfig.defaultCategoryId;
   }
 
-  private getVideosToLoadFromStorage() {
+  private getVideosToLoadFromStorage(): number {
     const searchFilter = JSON.parse(this.sessionStorage.getItem(appConfig.storagFiltersObjectName));
     return searchFilter
       ? searchFilter[appConfig.storageFiltersVideosCountPerPage]
       : appConfig.maxVideosToLoad;
   }
 
-  private setCountries() {
+  private setCountries(): void {
     this.filteredCountries = this.countryFormControl.valueChanges.pipe(
       startWith<string | ICountryListModel>(''),
       map((value) => (typeof value === 'string' ? value : value.name)),
@@ -124,7 +124,7 @@ export class SlideFiltersComponent implements OnInit, OnDestroy {
     this.countryFormControl.setValue(this.getCountryFilterFromStorage());
   }
 
-  private loadCategories(regionCode: string, refresh: boolean) {
+  private loadCategories(regionCode: string, refresh: boolean): void {
     this.videoCategories = [];
     this.youtubeService
       .getVideoCategories(regionCode)
@@ -149,7 +149,7 @@ export class SlideFiltersComponent implements OnInit, OnDestroy {
       });
   }
 
-  private addDefaultCategoryIfNotExists() {
+  private addDefaultCategoryIfNotExists(): void {
     // We assume that all countries have a default category Music
     const defaultCategoryId = appConfig.defaultCategoryId;
     const categoryExists = this.videoCategories.some(
@@ -163,7 +163,7 @@ export class SlideFiltersComponent implements OnInit, OnDestroy {
     }
   }
 
-  private setCategories() {
+  private setCategories(): void {
     this.filteredCategories = this.categoryFormControl.valueChanges.pipe(
       startWith<string | VideoCategoryClass>(''),
       map((value) => (typeof value === 'string' ? value : value.title)),
