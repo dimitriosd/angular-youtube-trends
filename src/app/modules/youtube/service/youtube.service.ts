@@ -6,6 +6,7 @@ import { map, catchError } from 'rxjs/internal/operators';
 import { appConfig } from 'appConfig';
 import { VideoClass } from '../models/video.class';
 import { VideoCategoryClass } from '@modules/youtube/models/video-category.class';
+import { IVideoListResponseModel } from '../models/video-list-response.interface';
 
 @Injectable({ providedIn: 'root' })
 export class YoutubeService {
@@ -14,25 +15,33 @@ export class YoutubeService {
   public getTrendingVideos(
     regionCode: string,
     videosPerPage?: number,
-    videoCategoryId?: string
-  ): Observable<VideoClass[]> {
+    videoCategoryId?: string,
+    pageToken?: string
+  ): Observable<IVideoListResponseModel> {
     return this.http
-      .get<VideoClass>(appConfig.getYoutubeEndPoint('videos'), {
+      .get<IVideoListResponseModel>(appConfig.getYoutubeEndPoint('videos'), {
         params: {
           part: appConfig.partsToLoad,
           chart: appConfig.chart,
           ...(videoCategoryId && { videoCategoryId }),
           regionCode,
-          maxResults: videosPerPage
-            ? videosPerPage.toString()
-            : appConfig.maxVideosToLoad.toString(),
+          ...(pageToken && { pageToken }),
+          maxResults: this.getMaxVideosToLoad(videosPerPage),
           key: appConfig.youtubeApiKey
         }
       })
       .pipe(
-        map((data) =>
-          data.items.map((item) => new VideoClass(item)).filter((item) => item.id !== '')
-        ),
+        map((data) => {
+          const returnData = {
+            items: data.items.map((item) => new VideoClass(item)).filter((item) => item.id !== ''),
+            nextPageToken: data.nextPageToken,
+            pageInfo: {
+              totalResults: data.pageInfo.totalResults,
+              resultsPerPage: data.pageInfo.resultsPerPage
+            }
+          };
+          return returnData;
+        }),
         catchError(this.handleError('getTrendingVideos'))
       );
   }
@@ -59,5 +68,14 @@ export class YoutubeService {
       error.operation = operation;
       return throwError(error);
     };
+  }
+
+  private getMaxVideosToLoad(maxVideos: number): string {
+    if (maxVideos) {
+      return maxVideos > appConfig.maxVideosToLoad
+        ? appConfig.maxVideosToLoad.toString()
+        : maxVideos.toString();
+    }
+    return appConfig.maxVideosToLoad.toString();
   }
 }

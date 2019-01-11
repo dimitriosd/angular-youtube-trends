@@ -7,7 +7,6 @@ export class VideoClass {
   public publishedAt = '';
   public viewCount = 0;
   public likeCount = 0;
-  public items ?= [];
 
   constructor(data = {}) {
     if (!data || !data['snippet'] || !data['statistics']) {
@@ -18,9 +17,8 @@ export class VideoClass {
     this.title = data['snippet']['title'];
     this.thumbnail = data['snippet']['thumbnails']['high']['url'];
     this.publishedAt = moment(data['snippet']['publishedAt']).fromNow();
-
     const viewCount = parseInt(data['statistics']['viewCount'], 10);
-    const likeCount = parseInt(data['statistics']['l1keCount'], 10);
+    const likeCount = parseInt(data['statistics']['likeCount'], 10);
     this.viewCount = isNaN(viewCount) ? 0 : viewCount;
     this.likeCount = isNaN(likeCount) ? 0 : likeCount;
   }

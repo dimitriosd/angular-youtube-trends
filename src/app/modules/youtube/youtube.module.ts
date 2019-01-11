@@ -15,12 +15,15 @@ import { YoutubeComponent } from '@modules/youtube/youtube.component';
 import { VideoComponent } from '@modules/youtube/components/video.component';
 import { YoutubeService } from '@modules/youtube/service/youtube.service';
 import { PlayerComponent } from '@modules/youtube/player/player.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { SafePipe } from '@modules/youtube/pipes/safe.pipe';
 
 @NgModule({
-  declarations: [YoutubeComponent, VideoComponent, PlayerComponent],
+  declarations: [YoutubeComponent, VideoComponent, PlayerComponent, SafePipe],
   imports: [
     CommonModule,
     FormsModule,
+    InfiniteScrollModule,
     MatButtonModule,
     MatIconModule,
     MatSidenavModule,

@@ -8,7 +8,7 @@ import { Observable, Subject, throwError } from 'rxjs';
 import { VideoCategoryClass } from '@modules/youtube/models/video-category.class';
 import { catchError, filter, map, startWith, takeUntil } from 'rxjs/operators';
 import { YoutubeService } from '@modules/youtube/service/youtube.service';
-import { ISearchFiltersInterface } from '@shared/models/search-filters.interface';
+import { ISearchFiltersModel } from '@shared/models/search-filters.interface';
 import { SESSION_STORAGE_TOKEN } from '@shared/tokens/session-storage.token';
 
 @Component({
@@ -47,7 +47,7 @@ export class SlideFiltersComponent implements OnInit, OnDestroy {
   }
 
   public onChangeVideosPerPage(count: number) {
-    const filters: ISearchFiltersInterface = {
+    const filters: ISearchFiltersModel = {
       videosCountPerPage: count,
       selectedRegionCode: this.getCountryCode(this.countryFormControl.value),
       selectedCategoryId: this.getCategoryId(this.categoryFormControl.value)
@@ -66,7 +66,7 @@ export class SlideFiltersComponent implements OnInit, OnDestroy {
   }
 
   public onCategoryChange(value: string) {
-    const filters: ISearchFiltersInterface = {
+    const filters: ISearchFiltersModel = {
       videosCountPerPage: this.defaultVideosOnPage,
       selectedRegionCode: this.getCountryCode(this.countryFormControl.value),
       selectedCategoryId: this.getCategoryId(value)
@@ -139,7 +139,7 @@ export class SlideFiltersComponent implements OnInit, OnDestroy {
         this.addDefaultCategoryIfNotExists();
         this.setCategories();
         if (refresh) {
-          const filters: ISearchFiltersInterface = {
+          const filters: ISearchFiltersModel = {
             videosCountPerPage: this.defaultVideosOnPage,
             selectedRegionCode: this.getCountryCode(this.countryFormControl.value),
             selectedCategoryId: this.getCategoryId(this.categoryFormControl.value)

@@ -1,12 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { catchError } from 'rxjs/internal/operators';
+import { Subject } from 'rxjs';
+import { catchError, finalize } from 'rxjs/internal/operators';
 import { throwError } from 'rxjs/index';
 
 import { YoutubeService } from './service/youtube.service';
 import { ContextService } from '@shared/context.service';
 import { VideoClass } from './models/video.class';
-import { ISearchFiltersInterface } from '@shared/models/search-filters.interface';
+import { ISearchFiltersModel } from '@shared/models/search-filters.interface';
 import { appConfig } from 'appConfig';
 import { SESSION_STORAGE_TOKEN } from '@shared/tokens/session-storage.token';
 
@@ -16,9 +16,11 @@ import { SESSION_STORAGE_TOKEN } from '@shared/tokens/session-storage.token';
   styleUrls: ['./youtube.component.scss']
 })
 export class YoutubeComponent implements OnInit {
-  public trendingVideos: Observable<VideoClass[]>;
+  public trendingVideos: VideoClass[];
   public loadingError$ = new Subject<boolean>();
-  public videos: VideoClass[];
+  public showMoreVideos: boolean;
+  public isVideosLoading = true;
+  public nextPageToken: string;
 
   constructor(
     private youtubeService: YoutubeService,
@@ -28,34 +30,68 @@ export class YoutubeComponent implements OnInit {
 
   public ngOnInit(): void {
     this.appContext.moduleTitle.next('YOUTUBE');
-    this.loadVideos();
-    this.appContext.searchFilters.subscribe((filters) => this.loadVideos(filters));
+    this.appContext.showFilterButton.next(true);
+    this.initFiltersAndLoad();
+    this.appContext.searchFilters.subscribe((filters) => this.resetFiltersAndLoad(filters));
   }
 
-  private loadVideos(searchFilters?: ISearchFiltersInterface) {
-    const filters = this.getFilters(searchFilters);
-    if (searchFilters) {
-      this.saveFilters(filters);
+  public onScroll() {
+    if (this.showMoreVideos) {
+      const filters = this.getFilters(undefined);
+      this.loadVideos(filters, this.nextPageToken);
     }
-    this.trendingVideos = this.youtubeService
+  }
+
+  private initFiltersAndLoad(searchFilters?: ISearchFiltersModel) {
+    this.clearData();
+    const filters = this.getFilters(searchFilters);
+    this.loadVideos(filters);
+  }
+
+  private resetFiltersAndLoad(searchFilters: ISearchFiltersModel) {
+    this.clearData();
+    this.saveFilters(searchFilters);
+    const filters = this.getFilters(searchFilters);
+    this.loadVideos(filters);
+  }
+
+  private clearData() {
+    this.trendingVideos = [];
+    this.nextPageToken = null;
+    this.isVideosLoading = true;
+  }
+
+  private loadVideos(
+    searchFilters: ISearchFiltersModel,
+    nextPageToken: string = this.nextPageToken
+  ) {
+    this.youtubeService
       .getTrendingVideos(
-        filters.selectedRegionCode,
-        filters.videosCountPerPage,
-        filters.selectedCategoryId
+        searchFilters.selectedRegionCode,
+        searchFilters.videosCountPerPage,
+        searchFilters.selectedCategoryId,
+        nextPageToken
       )
       .pipe(
+        finalize(() => (this.isVideosLoading = false)),
         catchError((error) => {
           this.loadingError$.next(true);
           return throwError(error);
         })
-      );
+      )
+      .subscribe((response) => {
+        this.trendingVideos = this.trendingVideos.concat(response.items);
+        this.nextPageToken = response.nextPageToken;
+        this.showMoreVideos =
+          !!this.nextPageToken && this.trendingVideos.length < searchFilters.videosCountPerPage;
+      });
   }
 
-  private saveFilters(searchFilters: ISearchFiltersInterface) {
+  private saveFilters(searchFilters: ISearchFiltersModel) {
     this.sessionStorage.setItem(appConfig.storagFiltersObjectName, JSON.stringify(searchFilters));
   }
 
-  private getFilters(filters: ISearchFiltersInterface) {
+  private getFilters(filters: ISearchFiltersModel) {
     // First check in storage
     const storageFilters = this.sessionStorage.getItem(appConfig.storagFiltersObjectName);
     if (storageFilters && !filters) {

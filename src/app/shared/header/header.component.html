@@ -4,7 +4,7 @@
       <img class="logo" src="/assets/logo.svg" alt="Trendings" />
     </div>
     <div class="opened-module-title">{{ title$ | async }}</div>
-    <button mat-button class="menu-toggle" (click)="open()">
+    <button *ngIf="showFilterButton$ | async" mat-button class="menu-toggle" (click)="open()">
       <mat-icon>settings</mat-icon>
     </button>
   </nav>

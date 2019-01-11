@@ -1,4 +1,10 @@
-<div id="youtube" *ngIf="(trendingVideos | async) as videos; else loadingOrError">
+<div id="youtube" *ngIf="!isVideosLoading && trendingVideos as videos; else loadingOrError"
+     infiniteScroll
+     [infiniteScrollDistance]="2"
+     [infiniteScrollThrottle]="150"
+     [infiniteScrollContainer]="'.mat-drawer-content'"
+     [fromRoot]="true"
+     (scrolled)="onScroll()">
   <div class="row">
     <div class="card-container" *ngFor="let video of videos">
       <app-video-component [video]="video"></app-video-component>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
 import { ContextService } from '../context.service';
@@ -8,9 +8,10 @@ import { ContextService } from '../context.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   @Output() public filterSlideOpen: EventEmitter<boolean> = new EventEmitter();
   public title$: Subject<string> = this.appContext.moduleTitle;
+  public showFilterButton$: Subject<boolean> = this.appContext.showFilterButton;
 
   constructor(private appContext: ContextService) {}
 
