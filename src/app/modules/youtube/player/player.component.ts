@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { appConfig } from 'appConfig';
 import { ContextService } from '@shared/context.service';
 import { YoutubeService } from '@modules/youtube/service/youtube.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-player',
@@ -13,7 +14,11 @@ export class PlayerComponent implements OnInit {
   public embedUrl: string;
   public videoLoader: boolean;
 
-  constructor(private appContext: ContextService, private youtubeService: YoutubeService) {}
+  constructor(
+    private appContext: ContextService,
+    private youtubeService: YoutubeService,
+    private router: Router
+  ) {}
 
   public ngOnInit() {
     this.appContext.showFilterButton.next(false);
@@ -21,12 +26,11 @@ export class PlayerComponent implements OnInit {
     if (!id.length) {
       return;
     }
-/*    this.youtubeService
-      .getTrendingVideos(undefined, undefined, undefined, undefined, id)
-
-      .subscribe((response) => {
-        console.log(response);
-      });*/
+    this.youtubeService.isVideoValid(id).subscribe((response) => {
+      if (!response) {
+        this.router.navigate(['../']);
+      }
+    });
 
     this.videoLoader = true;
     this.embedUrl = appConfig.getYoutubeEmbdedUrl(id);

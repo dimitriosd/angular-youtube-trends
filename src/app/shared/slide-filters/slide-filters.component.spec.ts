@@ -76,9 +76,7 @@ describe('SlideFiltersComponent', () => {
 
   it('shoud reload categories on country change', () => {
     const privateComponent = component as any;
-    component.videoCategories = [
-      {id: '1', title: 'test'}
-    ];
+    component.videoCategories = [{ id: '1', title: 'test' }];
     spyOn(privateComponent, 'loadCategories');
     component.onChangeVideosPerPage(30);
     component.onCountryChange('US');
@@ -93,9 +91,7 @@ describe('SlideFiltersComponent', () => {
 
   it('should get filtered categories', () => {
     const privateComponent = component as any;
-    component.videoCategories = [
-      {id: '1', title: 'test'}
-    ];
+    component.videoCategories = [{ id: '1', title: 'test' }];
     expect(privateComponent.filterCategories('test').length).toBe(1);
   });
 });

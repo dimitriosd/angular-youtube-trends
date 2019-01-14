@@ -21,6 +21,8 @@ export class YoutubeComponent implements OnInit {
   public showMoreVideos: boolean;
   public isVideosLoading = true;
   public nextPageToken: string;
+  public currentPage = 0;
+  public totalPages = 0;
 
   constructor(
     private youtubeService: YoutubeService,
@@ -38,21 +40,32 @@ export class YoutubeComponent implements OnInit {
   public onScroll(): void {
     if (this.showMoreVideos) {
       const filters = this.getFilters(undefined);
+      this.currentPage++;
       this.loadVideos(filters, this.nextPageToken);
     }
   }
 
   private initFiltersAndLoad(searchFilters?: ISearchFiltersModel): void {
+    this.currentPage = 0;
+    this.totalPages = 0;
     this.clearData();
     const filters = this.getFilters(searchFilters);
+    this.findTotalPages(filters);
     this.loadVideos(filters);
   }
 
   private resetFiltersAndLoad(searchFilters: ISearchFiltersModel): void {
+    this.currentPage = 0;
+    this.totalPages = 0;
     this.clearData();
     this.saveFilters(searchFilters);
     const filters = this.getFilters(searchFilters);
+    this.findTotalPages(filters);
     this.loadVideos(filters);
+  }
+
+  private findTotalPages(searchFilters: ISearchFiltersModel) {
+    this.totalPages = Math.ceil(searchFilters.videosCountPerPage / appConfig.maxVideosToLoad);
   }
 
   private clearData(): void {
@@ -65,8 +78,10 @@ export class YoutubeComponent implements OnInit {
     searchFilters: ISearchFiltersModel,
     nextPageToken: string = this.nextPageToken
   ): void {
+    const isLastPage = this.currentPage === this.totalPages - 1;
     this.youtubeService
       .getTrendingVideos(
+        isLastPage,
         searchFilters.selectedRegionCode,
         searchFilters.videosCountPerPage,
         searchFilters.selectedCategoryId,

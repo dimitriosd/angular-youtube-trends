@@ -15,9 +15,9 @@ describe('YoutubeService', () => {
   }));
 
   it('should get trending videos', inject([YoutubeService], (service: YoutubeService) => {
-    expect(service.getTrendingVideos('US')).toBeDefined();
-    expect(service.getTrendingVideos('US', 5)).toBeDefined();
-    expect(service.getTrendingVideos('US', 51, '10', 'someToken')).toBeDefined();
+    expect(service.getTrendingVideos(false, 'US')).toBeDefined();
+    expect(service.getTrendingVideos(false, 'US', 5)).toBeDefined();
+    expect(service.getTrendingVideos(true, 'US', 51, '10', 'someToken')).toBeDefined();
   }));
 
   it('should get video categories', inject([YoutubeService], (service: YoutubeService) => {

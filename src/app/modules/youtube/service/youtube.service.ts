@@ -13,6 +13,7 @@ export class YoutubeService {
   constructor(private http: HttpClient) {}
 
   public getTrendingVideos(
+    isLastPage: boolean,
     regionCode: string,
     videosPerPage?: number,
     videoCategoryId?: string,
@@ -26,7 +27,7 @@ export class YoutubeService {
           ...(videoCategoryId && { videoCategoryId }),
           regionCode,
           ...(pageToken && { pageToken }),
-          maxResults: this.getMaxVideosToLoad(videosPerPage),
+          maxResults: this.getMaxVideosToLoad(videosPerPage, isLastPage),
           key: appConfig.youtubeApiKey
         }
       })
@@ -59,7 +60,24 @@ export class YoutubeService {
         map((data) =>
           data.items.map((item) => new VideoCategoryClass(item)).filter((item) => item.id !== '')
         ),
-        catchError(this.handleError('getTrendingVideos'))
+        catchError(this.handleError('getVideoCategories'))
+      );
+  }
+
+  public isVideoValid(id: string): Observable<boolean> {
+    return this.http
+      .get<IVideoListResponseModel>(appConfig.getYoutubeEndPoint('videos'), {
+        params: {
+          part: appConfig.partsToLoadCategories,
+          key: appConfig.youtubeApiKey,
+          id
+        }
+      })
+      .pipe(
+        map((data) => {
+          return data.items.length > 0;
+        }),
+        catchError(this.handleError('isVideoValid'))
       );
   }
 
@@ -70,10 +88,12 @@ export class YoutubeService {
     };
   }
 
-  private getMaxVideosToLoad(maxVideos: number): string {
+  private getMaxVideosToLoad(maxVideos: number, isLastPage: boolean): string {
     if (maxVideos) {
       return maxVideos > appConfig.maxVideosToLoad
-        ? appConfig.maxVideosToLoad.toString()
+        ? isLastPage
+          ? (maxVideos % appConfig.maxVideosToLoad).toString()
+          : appConfig.maxVideosToLoad.toString()
         : maxVideos.toString();
     }
     return appConfig.maxVideosToLoad.toString();
